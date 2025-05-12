@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 // import { useState } from "react";
 
 
@@ -18,12 +19,18 @@ export const BlogSlice = createSlice({
         setBlog: (state, action)=>{
             // console.log(action.payload)
             state.datablog.push(action.payload)
+            toast.success("Blog Added Successfully")
 
+        },
+
+        setDelete: (state, action)=> {
+             console.log(action.payload)
+             state.datablog = state.datablog.filter((item)=> item.id !== action.payload)
         }
 
     }
 })
 
 
-export const {setBlog} = BlogSlice.actions
+export const {setBlog, setDelete} = BlogSlice.actions
 export default BlogSlice.reducer

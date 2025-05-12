@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { setBlog } from "../../Data/redux/slice/Blog/BlogSlice";
+import { setBlog, setDelete } from "../../Data/redux/slice/Blog/BlogSlice";
 
 const Blog = () => {
   const [text, setText] = useState("");
@@ -9,6 +9,7 @@ const Blog = () => {
 
   const dispatch = useDispatch();
 
+  
   const data =  useSelector(state => state.blogs.datablog)
 
   function AddBlog() {
@@ -20,6 +21,13 @@ const Blog = () => {
     dispatch(setBlog({ text, description }));
     setText("");
     setDecription("");
+  }
+
+
+  function Delete (id){
+    dispatch(setDelete(id))
+    console.log(id)
+
   }
 
   return (
@@ -49,18 +57,23 @@ const Blog = () => {
         </button>
       </div>
 
-      <div className="flex items-center gap-4">
-      {data.length > 0 ? (
-        data.map((result)=> (
-           <div key={result.id} className="border-1 rounded-xl shadow-md shadow-black w-24 py-14 ">
-            <h2>{result.text}</h2>
-            <h2>{result.description}</h2>
+      <div className="flex flex-wrap mt-4 items-center gap-4">
+        {data.map((items)=> (
+     
+           <div key={items.id} className="border-1 h-48 rounded-xl relative shadow-md shadow-black w-48 p-2 ">
+              <div>
+              <h2>{items.text}</h2>
+              <h2>{items.description}</h2>
+              </div>
 
+             <button 
+              onClick={()=> Delete(items.id)}             
+              className="text-red-500 absolute bottom-2 cursor-pointer  ">Delete</button> 
            </div>
-        ))
-      ) : (
-        <p>No Present Data Please Add First</p>
-      ) }
+       
+        )) 
+      }
+      
       </div>
       
     </div>
